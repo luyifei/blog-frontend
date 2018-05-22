@@ -6,18 +6,62 @@
 <link rel="stylesheet" type="text/css" href="styles/search.css" />
 <script src="js/script.js"></script>
 <script type="text/javascript">
-function searchaab(){
+	var curPage = 0;
+function searchF(){
+    	curPage = 1;
 		var options = {
-                url: '/blog/article/list',
+                url: '/blog/article/list/'+ curPage,
                 type: 'get',
                 dataType: 'json',
                 data: $("#searchForm").serialize(),
-                success: function (data) {
-					console.log(data);
+                success: function (response) {
+                    $.each(response.data,function (index, item) {
+						var content = "<li><div class=\"list_con\"><div class=\"title\">"
+							+ "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
+							+ "<div class=\"summary\">" + item.summary + "</div>"
+							+ "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTime
+							+ "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
+							+ item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
+                        $("#list-ul").append(content);
+                    });
                 }
         };
         $.ajax(options);
 }
+$(document).scroll(function () {
+    //滚动条高度
+    var scrollTop = $(window).scrollTop();
+  	//内容高度
+    var contentH = $(document).height();
+    //可见高度
+    var viewH =  $(window).height();
+
+    if(contentH - viewH - scrollTop <= 200) {
+        if(curPage == 0){
+            return;
+        }
+        curPage++;
+        var options = {
+            url: '/blog/article/list/'+ curPage,
+            type: 'get',
+            dataType: 'json',
+            data: $("#searchForm").serialize(),
+            success: function (response) {
+                $.each(response.data,function (index, item) {
+                    var content = "<li><div class=\"list_con\"><div class=\"title\">"
+                        + "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
+                        + "<div class=\"summary\">" + item.summary + "</div>"
+                        + "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTime
+                        + "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
+                        + item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
+                    $("#list-ul").append(content);
+                });
+            }
+        };
+        $.ajax(options);
+	}
+});
+
 </script>
 </head>
 <body>
@@ -25,7 +69,7 @@ function searchaab(){
     <form id="searchForm" class="search-form" method="post">
 		<fieldset class="search-field">
            	<input class="search-text" name="search" type="text" value="" placeholder="站内搜索"/>
-            <input type="button" onclick="searchaab();" class="search-button" />
+            <input type="button" onclick="searchF();" class="search-button" />
             <div class="search-container">
                 <input type="radio" name="check" value="web" id="searchWeb" checked/>
                 <label class="search-label" for="searchWeb">全站</label>
@@ -38,53 +82,29 @@ function searchaab(){
     
 </div>
 <div id="resultsDiv" class="border-list">
-		<ul class="feedlist_mod">
-			<li>
-			  <div class="list_con">
-				<div class="title">
+		<ul id="list-ul" class="feedlist_mod">
+            <li>
+                <div class="list_con">
+                    <div class="title">
 
-					  <a href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235" >
-						  腾讯云高级研发工程师：朋友圈爆款背后的计算机视觉技术与应用              </a>
+                        <a href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235" >
+                            腾讯云高级研发工程师：朋友圈爆款背后的计算机视觉技术与应用              </a>
 
-				</div> 
-				<div class="summary">
-				  刚刚过去的五四青年节，你的朋友圈是否被这样的民国风照片刷屏？用户只需要在 H5 页面上提交自己的头像照片，就可以自动生成诸如此类风格的人脸比对照片，简洁操作的背后离不开计算机视觉技术和腾讯云技术的支持。
+                    </div>
+                    <div class="summary">
+                        刚刚过去的五四青年节，你的朋友圈是否被这样的民国风照片刷屏？用户只需要在 H5 页面上提交自己的头像照片，就可以自动生成诸如此类风格的人脸比对照片，简洁操作的背后离不开计算机视觉技术和腾讯云技术的支持。
 
-		那么这个爆款应用的背后用到了哪些计算机视觉技术？掌握这些技术需要通过哪些学习路径？AI 科技大本营邀请到腾讯云 AI 和大数据中心高级研发工程师叶聪，他将以直播公开课的形式为大家解答这些问题...    
-				</div>
-				<div class="list_userbar">
-					<span class="text">2018年05月12日 08:40:50</span>
-					<a class="floatR" href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235">
-							<span class="num">2079</span>
-							<span class="text">阅读</span>
-					</a>
-				</div>
-               </div>
-			</li>
-
-			<li>
-			  <div class="list_con">
-				<div class="title">
-
-					  <a href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235" >
-						  腾讯云高级研发工程师：朋友圈爆款背后的计算机视觉技术与应用              </a>
-					 
-
-				</div> 
-				<div class="summary">
-				  刚刚过去的五四青年节，你的朋友圈是否被这样的民国风照片刷屏？用户只需要在 H5 页面上提交自己的头像照片，就可以自动生成诸如此类风格的人脸比对照片，简洁操作的背后离不开计算机视觉技术和腾讯云技术的支持。
-
-		那么这个爆款应用的背后用到了哪些计算机视觉技术？掌握这些技术需要通过哪些学习路径？AI 科技大本营邀请到腾讯云 AI 和大数据中心高级研发工程师叶聪，他将以直播公开课的形式为大家解答这些问题...    
-				</div>
-				<div class="list_userbar">
-					<span class="text">2018年05月12日 08:40:50</span>
-					<a class="floatR" href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235">
-							<span class="num">2079</span>
-							<span class="text">阅读</span>
-					</a>
-				</div>
-               </div>
-			</li>
+                        那么这个爆款应用的背后用到了哪些计算机视觉技术？掌握这些技术需要通过哪些学习路径？AI 科技大本营邀请到腾讯云 AI 和大数据中心高级研发工程师叶聪，他将以直播公开课的形式为大家解答这些问题...
+                    </div>
+                    <div class="list_userbar">
+                        <span class="text">2018年05月12日 08:40:50</span>
+                        <a class="floatR" href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235">
+                            <span class="num">2079</span>
+                            <span class="text">阅读</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
 
 		</ul>
 	</div>

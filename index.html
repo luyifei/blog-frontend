@@ -16,7 +16,6 @@ jQuery(document).ready(function(){
                 type: 'get',
                 dataType: 'json',
                 success: function (response) {
-					console.log(response.data);
 					//遍历一级菜单
 					$.each(response.data, function (topItemIndex, topItem) {
 						$("#navigation-top").append("<li class='' _t_nav='" + topItem.id +"'><h2><a>" + topItem.name + "</a></h2></li>");
@@ -37,7 +36,6 @@ jQuery(document).ready(function(){
 							sub = sub + "</dl>";
 						});
 						sub = sub + "</div></div>";
-						console.log(sub);
 						$("#navigation-sub").append(sub);
 					}); 
 
