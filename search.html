@@ -2,8 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>搜索</title>
+<title>个人站</title>
 <link rel="stylesheet" type="text/css" href="styles/search.css" />
+    <script src="scripts/main.js" type="text/javascript"></script>
     <script src="scripts/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     jQuery(document).ready(function(){
@@ -13,42 +14,11 @@
             var speed = 300;//滑动的速度
             $('html,body').animate({"scrollTop": 0}, speed);
         });
+        searchF();
     });
 	var curPage = 0;
-function searchF(){
-    	curPage = 1;
-		var options = {
-                url: '/blog/article/list/'+ curPage,
-                type: 'get',
-                dataType: 'json',
-                data: $("#searchForm").serialize(),
-                success: function (response) {
-                    $.each(response.data,function (index, item) {
-						var content = "<li><div class=\"list_con\"><div class=\"title\">"
-							+ "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
-							+ "<div class=\"summary\">" + item.summary + "</div>"
-							+ "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTimeStr
-							+ "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
-							+ item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
-                        $("#list-ul").append(content);
-                    });
-                }
-        };
-        $.ajax(options);
-}
-$(document).scroll(function () {
-    //滚动条高度
-    var scrollTop = $(window).scrollTop();
-  	//内容高度
-    var contentH = $(document).height();
-    //可见高度
-    var viewH =  $(window).height();
-
-    if(contentH - viewH - scrollTop <= 200) {
-        if(curPage == 0){
-            return;
-        }
-        curPage++;
+    function searchF(){
+        curPage = 1;
         var options = {
             url: '/blog/article/list/'+ curPage,
             type: 'get',
@@ -56,19 +26,42 @@ $(document).scroll(function () {
             data: $("#searchForm").serialize(),
             success: function (response) {
                 $.each(response.data,function (index, item) {
-                    var content = "<li><div class=\"list_con\"><div class=\"title\">"
-                        + "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
-                        + "<div class=\"summary\">" + item.summary + "</div>"
-                        + "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTimeStr
-                        + "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
-                        + item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
+                    var content = Main.article(item);
                     $("#list-ul").append(content);
                 });
             }
         };
         $.ajax(options);
-	}
-});
+    }
+    $(document).scroll(function () {
+        //滚动条高度
+        var scrollTop = $(window).scrollTop();
+        //内容高度
+        var contentH = $(document).height();
+        //可见高度
+        var viewH =  $(window).height();
+
+        if(contentH - viewH - scrollTop <= 200) {
+            if(curPage == 0){
+                return;
+            }
+            curPage++;
+            var options = {
+                url: '/blog/article/list/'+ curPage,
+                type: 'get',
+                dataType: 'json',
+                data: $("#searchForm").serialize(),
+                success: function (response) {
+                    $.each(response.data,function (index, item) {
+                        var content = Main.article(item);
+                        $("#list-ul").append(content);
+                    });
+                    $("#resultsDiv").attr("class","border-list");
+                }
+            };
+            $.ajax(options);
+        }
+    });
 
 </script>
 </head>
@@ -91,7 +84,7 @@ $(document).scroll(function () {
                 </fieldset>
             </form>
         </div>
-        <div id="resultsDiv" class="border-list">
+        <div id="resultsDiv">
             <ul id="list-ul" class="feedlist_mod">
             </ul>
         </div>

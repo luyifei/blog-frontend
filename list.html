@@ -2,16 +2,24 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>搜索</title>
+<title>个人站</title>
 <link rel="stylesheet" type="text/css" href="styles/search.css" />
     <link media="screen" rel="stylesheet" href="styles/main.css"/>
     <script src="scripts/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 	var curPage = 0;
     var isScroll = true;
-    var categoryId = 8;
+    var categoryId;
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
     jQuery(document).ready(function(){
-
+        categoryId = getUrlParam("categoryId");
+        if(categoryId == null){
+            window.location.href = "search.html";
+        }
         curPage = 1;
         var options = {
             url: '/blog/article/list/'+ curPage,
@@ -29,6 +37,7 @@
                     $("#list-ul").append(content);
                 });
                 curPage++;
+                $("#resultsDiv").attr("class","border-list");
             }
         };
         $.ajax(options);
@@ -41,14 +50,31 @@
         });
     });
     function loadData(){
-        console.log(curPage++);
-        return;
+        curPage++;
+        var options = {
+            url: '/blog/article/list/'+ curPage,
+            type: 'get',
+            dataType: 'json',
+            data: {"categoryId" : categoryId},
+            success: function (response) {
+                $.each(response.data,function (index, item) {
+                    var content = "<li><div class=\"list_con\"><div class=\"title\">"
+                        + "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
+                        + "<div class=\"summary\">" + item.summary + "</div>"
+                        + "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTimeStr
+                        + "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
+                        + item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
+                    $("#list-ul").append(content);
+                });
+                isScroll = true;
+            }
+        };
+        $.ajax(options);
     }
     $(document).scroll(function () {
         if(isScroll){
-            console.log(isScroll);
             isScroll = false;
-            setTimeout(loadData(),10000);
+            setTimeout("loadData()",300);
         }
     });
 
@@ -60,7 +86,7 @@
 </div>
 <div class="home-background">
     <div class="content-page">
-        <div id="resultsDiv" class="border-list">
+        <div id="resultsDiv">
             <ul id="list-ul" class="feedlist_mod">
 
             </ul>
