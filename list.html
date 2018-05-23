@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>搜索</title>
+<link rel="stylesheet" type="text/css" href="styles/search.css" />
+    <link media="screen" rel="stylesheet" href="styles/main.css"/>
+    <script src="scripts/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var curPage = 0;
+    var isScroll = true;
+    var categoryId = 8;
+    jQuery(document).ready(function(){
+
+        curPage = 1;
+        var options = {
+            url: '/blog/article/list/'+ curPage,
+            type: 'get',
+            dataType: 'json',
+            data: {"categoryId" : categoryId},
+            success: function (response) {
+                $.each(response.data,function (index, item) {
+                    var content = "<li><div class=\"list_con\"><div class=\"title\">"
+                        + "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
+                        + "<div class=\"summary\">" + item.summary + "</div>"
+                        + "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTimeStr
+                        + "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
+                        + item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
+                    $("#list-ul").append(content);
+                });
+                curPage++;
+            }
+        };
+        $.ajax(options);
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+
+        $("#backtop").click(function () {
+            var speed = 300;//滑动的速度
+            $('html,body').animate({"scrollTop": 0}, speed);
+        });
+    });
+    function loadData(){
+        console.log(curPage++);
+        return;
+    }
+    $(document).scroll(function () {
+        if(isScroll){
+            console.log(isScroll);
+            isScroll = false;
+            setTimeout(loadData(),10000);
+        }
+    });
+
+
+</script>
+</head>
+<body>
+<div id="header">
+</div>
+<div class="home-background">
+    <div class="content-page">
+        <div id="resultsDiv" class="border-list">
+            <ul id="list-ul" class="feedlist_mod">
+
+            </ul>
+        </div>
+    </div>
+    <div class="right-bottom-btn">
+        <a id="backtop" class="backtop-btn" title="返回顶部" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="12">
+                <path d="M9.314 0l9.313 9.314-2.12 2.121-7.193-7.192-7.193 7.192L0 9.314z" fill="#FFF" fill-rule="evenodd">
+                </path>
+            </svg>
+        </a>
+    </div>
+</div>
+<div id="footer">
+</div>
+</body>
+</html>
