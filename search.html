@@ -4,8 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>搜索</title>
 <link rel="stylesheet" type="text/css" href="styles/search.css" />
-<script src="js/script.js"></script>
+    <script src="scripts/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+    jQuery(document).ready(function(){
+        $("#header").load("header.html");
+        $("#footer").load("footer.html");
+        $("#backtop").click(function () {
+            var speed = 300;//滑动的速度
+            $('html,body').animate({"scrollTop": 0}, speed);
+        });
+    });
 	var curPage = 0;
 function searchF(){
     	curPage = 1;
@@ -65,48 +73,39 @@ $(document).scroll(function () {
 </script>
 </head>
 <body>
-<div class="search-page">
-    <form id="searchForm" class="search-form" method="post">
-		<fieldset class="search-field">
-           	<input class="search-text" name="search" type="text" value="" placeholder="站内搜索"/>
-            <input type="button" onclick="searchF();" class="search-button" />
-            <div class="search-container">
-                <input type="radio" name="check" value="web" id="searchWeb" checked/>
-                <label class="search-label" for="searchWeb">全站</label>
-				<input type="radio" name="check" value="web" id="searchJava"/>
-                <label class="search-label" for="searchJava">Java</label>
-			</div>
-            
-        </fieldset>
-    </form>
-    
+<div id="header">
 </div>
-<div id="resultsDiv" class="border-list">
-		<ul id="list-ul" class="feedlist_mod">
-            <li>
-                <div class="list_con">
-                    <div class="title">
-
-                        <a href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235" >
-                            腾讯云高级研发工程师：朋友圈爆款背后的计算机视觉技术与应用              </a>
-
+<div class="home-background">
+    <div class="content-page">
+        <div class="search-page">
+            <form id="searchForm" class="search-form" method="post">
+                <fieldset class="search-field">
+                    <input class="search-text" name="search" type="text" value="" placeholder="站内搜索"/>
+                    <input type="button" onclick="searchF();" class="search-button" />
+                    <div class="search-container">
+                        <input type="radio" name="check" value="web" id="searchWeb" checked/>
+                        <label class="search-label" for="searchWeb">全站</label>
+                        <input type="radio" name="check" value="web" id="searchJava"/>
+                        <label class="search-label" for="searchJava">Java</label>
                     </div>
-                    <div class="summary">
-                        刚刚过去的五四青年节，你的朋友圈是否被这样的民国风照片刷屏？用户只需要在 H5 页面上提交自己的头像照片，就可以自动生成诸如此类风格的人脸比对照片，简洁操作的背后离不开计算机视觉技术和腾讯云技术的支持。
-
-                        那么这个爆款应用的背后用到了哪些计算机视觉技术？掌握这些技术需要通过哪些学习路径？AI 科技大本营邀请到腾讯云 AI 和大数据中心高级研发工程师叶聪，他将以直播公开课的形式为大家解答这些问题...
-                    </div>
-                    <div class="list_userbar">
-                        <span class="text">2018年05月12日 08:40:50</span>
-                        <a class="floatR" href="http://blog.csdn.net/dQCFKyQDXYm3F8rB0/article/details/80335235">
-                            <span class="num">2079</span>
-                            <span class="text">阅读</span>
-                        </a>
-                    </div>
-                </div>
-            </li>
-
-		</ul>
-	</div>
+                </fieldset>
+            </form>
+        </div>
+        <div id="resultsDiv" class="border-list">
+            <ul id="list-ul" class="feedlist_mod">
+            </ul>
+        </div>
+    </div>
+    <div class="right-bottom-btn">
+        <a id="backtop" class="backtop-btn" title="返回顶部" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="12">
+                <path d="M9.314 0l9.313 9.314-2.12 2.121-7.193-7.192-7.193 7.192L0 9.314z" fill="#FFF" fill-rule="evenodd">
+                </path>
+            </svg>
+        </a>
+    </div>
+</div>
+<div id="footer">
+</div>
 </body>
 </html>

@@ -66,8 +66,8 @@ ul li a{
 }
 .right-bottom-btn {
 	position: fixed;
-	bottom: 20px;
-	right: 130px;
+	bottom: 10%;
+	right: 20%;
 	font-size: 0;
 	line-height: 0;
 	z-index: 100;
