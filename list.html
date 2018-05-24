@@ -4,19 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>个人站</title>
 <link rel="stylesheet" type="text/css" href="styles/search.css" />
+    <script src="scripts/main.js" type="text/javascript"></script>
     <link media="screen" rel="stylesheet" href="styles/main.css"/>
     <script src="scripts/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 	var curPage = 0;
     var isScroll = true;
     var categoryId;
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
-    }
     jQuery(document).ready(function(){
-        categoryId = getUrlParam("categoryId");
+        categoryId = Main.getUrlParam("categoryId");
         if(categoryId == null){
             window.location.href = "search.html";
         }
@@ -27,17 +23,16 @@
             dataType: 'json',
             data: {"categoryId" : categoryId},
             success: function (response) {
-                $.each(response.data,function (index, item) {
-                    var content = "<li><div class=\"list_con\"><div class=\"title\">"
-                        + "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
-                        + "<div class=\"summary\">" + item.summary + "</div>"
-                        + "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTimeStr
-                        + "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
-                        + item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
-                    $("#list-ul").append(content);
-                });
-                curPage++;
-                $("#resultsDiv").attr("class","border-list");
+                if(response.data.length != 0){
+                    $("#resultsDiv").attr("class","border-list");
+                    $.each(response.data,function (index, item) {
+                        var content = Main.article(item);
+                        $("#list-ul").append(content);
+                    });
+                    curPage++;
+                }else{
+                    $("#resultsDiv").append("<div>无内容</div>");
+                }
             }
         };
         $.ajax(options);
@@ -50,7 +45,6 @@
         });
     });
     function loadData(){
-        curPage++;
         var options = {
             url: '/blog/article/list/'+ curPage,
             type: 'get',
@@ -58,27 +52,31 @@
             data: {"categoryId" : categoryId},
             success: function (response) {
                 $.each(response.data,function (index, item) {
-                    var content = "<li><div class=\"list_con\"><div class=\"title\">"
-                        + "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
-                        + "<div class=\"summary\">" + item.summary + "</div>"
-                        + "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTimeStr
-                        + "</span><a class=\"floatR\" href=\"" + item.id + "\"><span class=\"num\">"
-                        + item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
+                    var content = Main.article(item);
                     $("#list-ul").append(content);
                 });
                 isScroll = true;
+                curPage++;
             }
         };
         $.ajax(options);
     }
     $(document).scroll(function () {
-        if(isScroll){
-            isScroll = false;
-            setTimeout("loadData()",300);
+        //滚动条高度
+        var scrollTop = $(window).scrollTop();
+        //内容高度
+        var contentH = $(document).height();
+        //可见高度
+        var viewH =  $(window).height();
+
+        if(contentH - viewH - scrollTop <= 200) {
+            if(isScroll){
+                isScroll = false;
+                setTimeout("loadData()",300);
+            }
         }
+
     });
-
-
 </script>
 </head>
 <body>

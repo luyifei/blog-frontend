@@ -7,6 +7,8 @@
     <script src="scripts/main.js" type="text/javascript"></script>
     <script src="scripts/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+    var isScroll = true;
+    var curPage = 0;
     jQuery(document).ready(function(){
         $("#header").load("header.html");
         $("#footer").load("footer.html");
@@ -14,25 +16,8 @@
             var speed = 300;//滑动的速度
             $('html,body').animate({"scrollTop": 0}, speed);
         });
-        searchF();
+        Search.searchF();
     });
-	var curPage = 0;
-    function searchF(){
-        curPage = 1;
-        var options = {
-            url: '/blog/article/list/'+ curPage,
-            type: 'get',
-            dataType: 'json',
-            data: $("#searchForm").serialize(),
-            success: function (response) {
-                $.each(response.data,function (index, item) {
-                    var content = Main.article(item);
-                    $("#list-ul").append(content);
-                });
-            }
-        };
-        $.ajax(options);
-    }
     $(document).scroll(function () {
         //滚动条高度
         var scrollTop = $(window).scrollTop();
@@ -42,24 +27,10 @@
         var viewH =  $(window).height();
 
         if(contentH - viewH - scrollTop <= 200) {
-            if(curPage == 0){
-                return;
+            if(isScroll){
+                isScroll = false;
+                setTimeout("Search.loadData()",300);
             }
-            curPage++;
-            var options = {
-                url: '/blog/article/list/'+ curPage,
-                type: 'get',
-                dataType: 'json',
-                data: $("#searchForm").serialize(),
-                success: function (response) {
-                    $.each(response.data,function (index, item) {
-                        var content = Main.article(item);
-                        $("#list-ul").append(content);
-                    });
-                    $("#resultsDiv").attr("class","border-list");
-                }
-            };
-            $.ajax(options);
         }
     });
 
@@ -73,8 +44,8 @@
         <div class="search-page">
             <form id="searchForm" class="search-form" method="post">
                 <fieldset class="search-field">
-                    <input class="search-text" name="search" type="text" value="" placeholder="站内搜索"/>
-                    <input type="button" onclick="searchF();" class="search-button" />
+                    <input id="search" class="search-text" name="search" type="text" value="" placeholder="站内搜索"/>
+                    <input type="button" onclick="Search.searchF();" class="search-button" />
                     <div class="search-container">
                         <input type="radio" name="check" value="web" id="searchWeb" checked/>
                         <label class="search-label" for="searchWeb">全站</label>
@@ -87,6 +58,15 @@
         <div id="resultsDiv">
             <ul id="list-ul" class="feedlist_mod">
             </ul>
+        </div>
+        <div id="nonResult" style="text-align:center;">
+            <span class="main-non-result">
+                    抱歉!没有找到符合条件的"<span id="searchContent"></span>"相关文章
+            </span>
+            </br>
+            <span class="sub-non-result">
+                    您可以尝试：同义关键词、缩短关键词、减少筛选条件
+            </span>
         </div>
     </div>
     <div class="right-bottom-btn">

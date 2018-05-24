@@ -72,3 +72,9 @@ ul li a{
 	line-height: 0;
 	z-index: 100;
 }
+.main-non-result{
+	font-size: 20px;
+}
+.sub-non-result{
+	font-size: 15px;
+}
