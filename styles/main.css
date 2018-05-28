@@ -78,3 +78,10 @@ ul li a{
 .sub-non-result{
 	font-size: 15px;
 }
+.text-area{
+	font-size: 15px;
+	padding: 6px;
+}
+.div-center{
+	text-align:center;
+}

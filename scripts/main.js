@@ -67,3 +67,18 @@ var Search = {
         $.ajax(options);
     }
 };
+var Edit = {
+    textSubmit : function () {
+        var options = {
+            url: '/blog/article/save',
+            type: 'post',
+            dataType: 'json',
+            data: $("#edit").serialize(),
+            success: function (response) {
+                alert("保存成功！");
+                window.location.href = "detail.html?id=" + response.data;
+            }
+        }
+        $.ajax(options);
+    }
+};
