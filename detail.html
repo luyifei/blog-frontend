@@ -12,6 +12,8 @@
     jQuery(document).ready(function(){
         $("#header").load("header.html");
         $("#footer").load("footer.html");
+        var id = Main.getUrlParam("id");
+        console.log(id);
     });
 </script>
 </head>
@@ -20,11 +22,7 @@
 </div>
 <div class="home-background">
     <div class="content-page">
-        <form name="example" method="post" action="demo.jsp">
-            <textarea name="content1" cols="100" rows="8" style="width:700px;height:200px;visibility:hidden;"><%=htmlspecialchars(htmlData)%></textarea>
-            <br />
-            <input type="submit" name="button" value="提交内容" /> (提交快捷键: Ctrl + Enter)
-        </form>
+
     </div>
     <div class="right-bottom-btn">
         <a id="backtop" class="backtop-btn" title="返回顶部" >
