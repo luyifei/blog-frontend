@@ -14,6 +14,17 @@
         $("#footer").load("footer.html");
         var id = Main.getUrlParam("id");
         console.log(id);
+        var options = {
+            url: '/blog/article/detail/' + id,
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success: function (response) {
+                console.log(response.data);
+                $("#content").val(response.data.content);
+            }
+        };
+        $.ajax(options);
     });
 </script>
 </head>
@@ -21,7 +32,7 @@
 <div id="header">
 </div>
 <div class="home-background">
-    <div class="content-page">
+    <div id="content" class="content-page">
 
     </div>
     <div class="right-bottom-btn">

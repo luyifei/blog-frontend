@@ -73,7 +73,9 @@
             placeholder : "请选择分类",
             data : data
         });
-        $("#category").on("change", function(e) { console.log($("#category").val()); })
+        $("#category").on("change", function(e) {
+            $("#categoryVal").val($("#category").val());
+        });
     });
 
 </script>
@@ -91,6 +93,7 @@
                     <option></option>
                 </select>
             </span>
+            <input type="hidden" id="categoryVal" name="categoryVal" />
         </div>
         <div style="height: 50px;position:relative;">
             <span style="position:absolute;top: 10px; left: 0; bottom: 0; right: 0;font-size: 15px;">文章标题</span>
