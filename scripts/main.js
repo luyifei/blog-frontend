@@ -1,10 +1,10 @@
 var Main = {
     article : function(item) {
         var content = "<li><div class=\"list_con\"><div class=\"title\">"
-            + "<a href=\"" + item.id + "\" >" + item.title + "</a></div>"
+            + "<a href=\"javascript:void(0);\" onclick='Main.loadDetail("+ item.id +")' >" + item.title + "</a></div>"
             + "<div class=\"summary\">" + item.summary + "</div>"
             + "</div><div class=\"list_userbar\"><span class=\"text\">" + item.createTimeStr
-            + "</span><a class=\"floatR\" href=\"detail.html?id=" + item.id + "\"><span class=\"num\">"
+            + "</span><a class=\"floatR\" href=\"javascript:void(0);\" onclick='Main.loadDetail("+ item.id +")'><span class=\"num\">"
             + item.readCount + "</span>&nbsp;<span class=\"text\">阅读</span></a></div></div></li>";
         return content;
     },
@@ -12,6 +12,9 @@ var Main = {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
         if (r != null) return unescape(r[2]); return null; //返回参数值
+    },
+    loadDetail : function (id) {
+    window.open("detail.html?id=" + id);
     }
 };
 var Search = {
@@ -36,7 +39,6 @@ var Search = {
                     $("#resultsDiv").hide();
                     $("#nonResult").show();
                     var search = $("#search").val();
-                    console.log(search);
                     $("#searchContent").text(search);
                 }
 
@@ -55,7 +57,6 @@ var Search = {
             dataType: 'json',
             data: $("#searchForm").serialize(),
             success: function (response) {
-                console.log(response.data.length);
                 $.each(response.data,function (index, item) {
                     var content = Main.article(item);
                     $("#list-ul").append(content);
