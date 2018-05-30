@@ -24,7 +24,8 @@
             async: false,
             success: function (response) {
                 console.log(response);
-                $("#content").val(response.data.content);
+                $("#content").html(response.data.contentStr);
+                $("#num").html(response.data.readCount);
             }
         };
         $.ajax(options);
@@ -35,8 +36,24 @@
 <div id="header">
 </div>
 <div class="home-background">
-    <div id="content" class="content-page">
+    <div  class="content-page">
+        <div class="detail-title">
+            <span id="title" >主标题</span>
+        </div>
+        <div class="detail-time">
+            <span >
+                2018年05月30日 11:42:08
+            </span>
+            <span class="floatR">
+                阅读数：<span id="num"></span>
+            </span>
+        </div>
 
+        <div class="line">
+        </div>
+        <span id="content">
+
+        </span>
     </div>
     <div class="right-bottom-btn">
         <a id="backtop" class="backtop-btn" title="返回顶部" >
