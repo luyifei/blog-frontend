@@ -100,3 +100,23 @@ ul li a{
 	border-bottom:1px solid #f4f4f4;
 
 }
+
+
+.edit-title{
+	box-sizing: border-box;
+	text-align:left;
+	height:27px;
+	border-radius:4px;
+	border:1px solid #A2A2A2;
+	color:#6a6f77;
+	-web-kit-appearance:none;
+	-moz-appearance: none;
+	display:block;
+	outline:0;
+	padding:0 0.5em;
+	text-decoration:none;
+	width:30%;
+}
+.edit-title:focus{
+	border:1px solid #5991FB;
+}

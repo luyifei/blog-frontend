@@ -76,6 +76,23 @@
         $("#category").on("change", function(e) {
             $("#categoryVal").val($("#category").val());
         });
+
+        //加载编辑内容
+        var id = Main.getUrlParam("id");
+        var detail = {
+            url: '/blog/article/detail/' + id,
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success: function (response) {
+                $("#content").val(response.data.contentStr);
+                $("#title").val(response.data.title);
+                $("#id").val(response.data.id);
+                $("#categoryVal").val(response.data.categoryId);
+            }
+        };
+        $.ajax(detail);
+
     });
 
 </script>
@@ -94,17 +111,18 @@
                 </select>
             </span>
             <input type="hidden" id="categoryVal" name="categoryVal" />
+            <input type="hidden" id="id" name="id" />
         </div>
         <div style="height: 50px;position:relative;">
-            <span style="position:absolute;top: 10px; left: 0; bottom: 0; right: 0;font-size: 15px;">文章标题</span>
+            <span style="position:absolute; top: 10px; left: 0; bottom: 0; right: 0;font-size: 15px;">文章标题</span>
             <span style="position:absolute; top: 5px; left: 75px; bottom: 0; right: 0;">
-                <input type="text" name="title" width="100px;"/>
+                <input type="text" name="title" id="title" class="edit-title" />
             </span>
         </div>
         <div class="text-area div-center">
             <span>文章内容</span>
         </div>
-            <textarea name="content" cols="100" rows="8" style="width:100%;height:600px;visibility:hidden;"></textarea>
+            <textarea id="content" name="content" cols="100" rows="8" style="width:100%;height:600px;visibility:hidden;"></textarea>
             <br />
             <input type="button" value="提交内容" onclick="Edit.textSubmit()" /> (提交快捷键: Ctrl + Enter)
         </form>

@@ -23,7 +23,7 @@
             dataType: 'json',
             async: false,
             success: function (response) {
-                console.log(response);
+                $("#title").html(response.data.title);
                 $("#content").html(response.data.contentStr);
                 $("#num").html(response.data.readCount);
             }
@@ -38,7 +38,7 @@
 <div class="home-background">
     <div  class="content-page">
         <div class="detail-title">
-            <span id="title" >主标题</span>
+            <span id="title" ></span>
         </div>
         <div class="detail-time">
             <span >
