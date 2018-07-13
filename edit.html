@@ -81,20 +81,22 @@
 
         //加载编辑内容
         var id = Main.getUrlParam("id");
-        var detail = {
-            url: '/blog/article/detail/' + id,
-            type: 'get',
-            dataType: 'json',
-            async: false,
-            success: function (response) {
-                $("#content").val(response.data.contentStr);
-                $("#title").val(response.data.title);
-                $("#id").val(response.data.id);
-                $("#categoryVal").val(response.data.categoryId);
-                $category.val(response.data.categoryId).trigger("change");
-            }
-        };
-        $.ajax(detail);
+        if(id != null){
+            var detail = {
+                url: '/blog/article/detail/' + id,
+                type: 'get',
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    $("#content").val(response.data.contentStr);
+                    $("#title").val(response.data.title);
+                    $("#id").val(response.data.id);
+                    $("#categoryVal").val(response.data.categoryId);
+                    $category.val(response.data.categoryId).trigger("change");
+                }
+            };
+            $.ajax(detail);
+        }
 
     });
 
