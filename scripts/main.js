@@ -83,3 +83,57 @@ var Edit = {
         $.ajax(options);
     }
 };
+var Detail = {
+    comment : function(index,item){
+        var content = "";
+        if(index == 1){
+            content = "<div class=\"comment-bottom\">";
+        }else{
+            content = " <div class=\"comment-other\">";
+        }
+        content = content + "<div> <span class=\"comment-title\">" + item.userIp + "</span>"
+            + "<span class=\"comment-title\">" + item.createTimeStr + "</span>"
+            + "<span class=\"comment-title\">#" + index  + "楼</span></div> <div class=\"comment-content\">" + item.content + "</div></div>";
+        return content;
+    },
+    commentSubmit : function () {
+        var comment = $("#comment-text").val();
+        var articleId = Main.getUrlParam("id");
+        var obj = {"comment" : comment,"articleId" : articleId};
+        var options = {
+            url: '/blog/articleComment/save',
+            type: 'post',
+            dataType: 'json',
+            data: obj ,
+            success: function (response) {
+                alert("保存成功！");
+                $("#comment-text").val("");
+                var content = Detail.comment(response.data.commentCount , response.data.articleComment);
+                $("#commentList").prepend(content);
+            }
+        }
+        $.ajax(options);
+    },
+    getComment : function (id) {
+        $("#comment-text").val("[reply]"+id+"[/reply]\r");
+    },
+    commentList : function () {
+        var articleId = Main.getUrlParam("id");
+        var options = {
+            url: '/blog/articleComment/list/' + articleId,
+            type: 'get',
+            dataType: 'json',
+            success: function (response) {
+                if(response.data.length > 0){
+                    var commentList = "<div id=\"commentList\" class=\"comment-list\"></div>";
+                    $("#commentPage").append(commentList);
+                }
+                $.each(response.data,function (index , item) {
+                    var content = Detail.comment(index + 1 , item);
+                    $("#commentList").prepend(content);
+                });
+            }
+        }
+        $.ajax(options);
+    }
+};

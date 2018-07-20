@@ -45,6 +45,7 @@
             }
         };
         $.ajax(options);
+        Detail.commentList();
     });
 </script>
 </head>
@@ -65,14 +66,15 @@
             </span>
         </div>
 
-        <div class="line">
+        <div id="content" style="min-height:800px;border-top:1px solid #f4f4f4;padding-top: 15px;">
         </div>
-        <span id="content" style="">
 
-        </span>
-        <div id="comment" >
+        <div style="border-top:2px solid #000000;width: 998px;margin-left: -19px;margin-top: 50px;">
+        </div>
+        <div id="comment" class="detail-comment" >
         </div>
     </div>
+
     <div class="right-bottom-btn">
         <a id="backtop" class="backtop-btn" title="返回顶部" >
             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="12">

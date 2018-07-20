@@ -120,3 +120,40 @@ ul li a{
 .edit-title:focus{
 	border:1px solid #5991FB;
 }
+
+.detail-comment{
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+
+.detail-reply{
+	color: #2a00ff;
+	cursor:pointer;
+	float:right;
+	margin-right: 5px;
+	margin-bottom:10px;
+	font-size: 13px;
+}
+
+.comment-list{
+	border-top: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+	padding-top: 5px;
+}
+.comment-bottom{
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+.comment-other{
+	border-bottom: 1px dashed #dddddd;
+	padding-top: 5px;
+	margin-bottom: 5px;
+}
+.comment-content{
+	margin:10px;
+}
+.comment-title{
+	margin: 0px 3px 10px 3px;
+	color: #8a8a8a;
+	font-size: 13px;
+}
