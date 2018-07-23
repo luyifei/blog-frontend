@@ -6,9 +6,11 @@
 <link rel="stylesheet" type="text/css" href="styles/search.css" />
     <script src="scripts/main.js" type="text/javascript"></script>
     <link media="screen" rel="stylesheet" href="styles/main.css"/>
-    <script src="/scripts/jquery/jquery-1.7.1.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="/kindeditor/themes/default/default.css" />
+    <script src="/scripts/jquery/jquery-1.12.4.min.js" type="text/javascript"></script>
 
+    <script src="/layer-v3.1.1/layer.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="/kindeditor/themes/default/default.css" />
     <link rel="stylesheet" href="/kindeditor/syntaxhighlighter-3.0.83/styles/shCore.css" />
     <link rel="stylesheet" href="/kindeditor/syntaxhighlighter-3.0.83/styles/shThemeDefault.css" />
     <script charset="utf-8" src="/kindeditor/syntaxhighlighter-3.0.83/scripts/XRegExp.js"></script>
@@ -27,7 +29,6 @@
     jQuery(document).ready(function(){
         $("#header").load("header.html");
         $("#footer").load("footer.html");
-        $("#comment").load("comment.html");
         $("#backtop").click(function () {
             var speed = 300;//滑动的速度
             $('html,body').animate({"scrollTop": 0}, speed);
@@ -42,6 +43,7 @@
                 $("#title").html(response.data.title);
                 $("#content").html(response.data.contentStr);
                 $("#num").html(response.data.readCount);
+                $("#time").html(response.data.createTimeStr);
             }
         };
         $.ajax(options);
@@ -58,8 +60,7 @@
             <span id="title" ></span>
         </div>
         <div class="detail-time">
-            <span >
-                2018年05月30日 11:42:08
+            <span id="time" >
             </span>
             <span class="floatR">
                 阅读数：<span id="num"></span>
@@ -71,7 +72,14 @@
 
         <div style="border-top:2px solid #000000;width: 998px;margin-left: -19px;margin-top: 50px;">
         </div>
-        <div id="comment" class="detail-comment" >
+        <div id="commentPage">
+            <div>
+                <h2>留言板：</h2>
+                <textarea id="comment-text" rows="4" placeholder="想对作者说点什么" cols="134"></textarea>
+                <div style="margin-top: 5px;margin-bottom: 10px;text-align: right;margin-right: 5px;">
+                    <input type="button" onclick="Detail.commentSubmit();" style="line-height: 28px; min-width: 72px;" value="发表评论">
+                </div>
+            </div>
         </div>
     </div>
 

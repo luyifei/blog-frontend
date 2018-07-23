@@ -76,7 +76,7 @@ var Edit = {
             dataType: 'json',
             data: $("#edit").serialize(),
             success: function (response) {
-                alert("保存成功！");
+                layer.alert('保存成功', {icon: 1});
                 window.location.href = "detail.html?id=" + response.data;
             }
         }
@@ -106,7 +106,7 @@ var Detail = {
             dataType: 'json',
             data: obj ,
             success: function (response) {
-                alert("保存成功！");
+                layer.alert('保存成功', {icon: 1});
                 $("#comment-text").val("");
                 var content = Detail.comment(response.data.commentCount , response.data.articleComment);
                 $("#commentList").prepend(content);
